@@ -1,5 +1,5 @@
 "use client";
-import React, { JSX, useState } from "react";
+import React, { useState } from "react";
 import {
 	motion,
 	AnimatePresence,
@@ -9,18 +9,13 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
-import { HomeIcon, LightningBoltIcon } from "@radix-ui/react-icons";
+import { HomeIcon } from "@radix-ui/react-icons";
 
 const navItems = [
 	{
 		name: "Home",
 		link: "/",
 		icon: <HomeIcon />,
-	},
-	{
-		name: "Quizzes",
-		link: "/",
-		icon: <LightningBoltIcon />,
 	},
 ];
 
