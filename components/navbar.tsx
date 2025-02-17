@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { JSX, useState } from "react";
 import {
 	motion,
 	AnimatePresence,
@@ -27,7 +27,7 @@ export const Navbar = ({ className }: { className?: string }) => {
 	useMotionValueEvent(scrollYProgress, "change", (current) => {
 		// Check if current is not undefined and is a number
 		if (typeof current === "number") {
-			let direction = current! - scrollYProgress.getPrevious()!;
+			const direction = current! - scrollYProgress.getPrevious()!;
 
 			if (scrollYProgress.get() < 0.05) {
 				setVisible(true);
@@ -60,18 +60,23 @@ export const Navbar = ({ className }: { className?: string }) => {
 					className
 				)}
 			>
-				{navItems.map((navItem: any, idx: number) => (
-					<Link
-						key={`link=${idx}`}
-						href={navItem.link}
-						className={cn(
-							"relative dark:text-neutral-50 items-center flex space-x-1 text-neutral-600 dark:hover:text-neutral-300 hover:text-neutral-500"
-						)}
-					>
-						<span className="block sm:hidden">{navItem.icon}</span>
-						<span className="hidden sm:block">{navItem.name}</span>
-					</Link>
-				))}
+				{navItems.map(
+					(
+						navItem: { name: string; link: string; icon: JSX.Element },
+						idx: number
+					) => (
+						<Link
+							key={`link=${idx}`}
+							href={navItem.link}
+							className={cn(
+								"relative dark:text-neutral-50 items-center flex space-x-1 text-neutral-600 dark:hover:text-neutral-300 hover:text-neutral-500"
+							)}
+						>
+							<span className="block sm:hidden">{navItem.icon}</span>
+							<span className="hidden sm:block">{navItem.name}</span>
+						</Link>
+					)
+				)}
 				<div className="flex">
 					<SignedOut>
 						<SignInButton>

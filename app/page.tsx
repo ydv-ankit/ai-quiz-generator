@@ -1,5 +1,4 @@
 import { AuroraBackground } from "@/components/ui/aurora-background";
-import { Button } from "@/components/ui/button";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 import Link from "next/link";
 
