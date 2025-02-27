@@ -1,10 +1,11 @@
+import { TGptBody } from "@/types/gpt";
 import { ApiResponse } from "@/utils/ApiResponse";
 import { GenerateQuizContent } from "@/utils/gpt/gpt";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (request: NextRequest) => {
 	try {
-		const body: string = await request.json();
+		const body: TGptBody = await request.json();
 		console.log(body);
 
 		const gptResponse = await GenerateQuizContent(JSON.stringify(body));

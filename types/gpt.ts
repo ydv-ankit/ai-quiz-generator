@@ -8,3 +8,14 @@ export type TGenerateQuiz = {
 	};
 	correct_answer: "A" | "B" | "C" | "D";
 };
+
+export type TGptBody = {
+	topics: {
+		subject: string;
+		topics: string[];
+	}[];
+	constraints: {
+		total_questions: number;
+		difficulty_level: "easy" | "medium" | "hard";
+	};
+};
