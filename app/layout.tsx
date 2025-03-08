@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Navbar } from "../components/navbar";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/sonner";
+import { Navbar } from "@/components/navbar";
 
 export const metadata: Metadata = {
 	title: "AI Quiz Generator",
@@ -19,6 +20,7 @@ export default function RootLayout({
 				<body>
 					<Navbar />
 					{children}
+					<Toaster />
 				</body>
 			</html>
 		</ClerkProvider>

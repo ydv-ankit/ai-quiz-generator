@@ -10,7 +10,7 @@ export type TGenerateQuiz = {
 };
 
 export type TGptBody = {
-	topics: {
+	content: {
 		subject: string;
 		topics: string[];
 	}[];
