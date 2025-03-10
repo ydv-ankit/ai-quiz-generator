@@ -15,21 +15,30 @@ export const Navbar = () => {
 					</div>
 				</Link>
 				<nav className="hidden md:flex gap-6">
-					<Link
-						href="#features"
-						className="text-sm font-medium hover:underline underline-offset-4">
-						Features
-					</Link>
-					<Link
-						href="/#how-it-works"
-						className="text-sm font-medium hover:underline underline-offset-4">
-						How It Works
-					</Link>
-					<Link
-						href="/#pricing"
-						className="text-sm font-medium hover:underline underline-offset-4">
-						Pricing
-					</Link>
+					<SignedIn>
+						<Link
+							href="/"
+							className="text-sm font-medium hover:underline underline-offset-4">
+							Home
+						</Link>
+						<Link
+							href="/dashboard"
+							className="text-sm font-medium hover:underline underline-offset-4">
+							Dashboard
+						</Link>
+					</SignedIn>
+					<SignedOut>
+						<Link
+							href="/#features"
+							className="text-sm font-medium hover:underline underline-offset-4">
+							Features
+						</Link>
+						<Link
+							href="/#pricing"
+							className="text-sm font-medium hover:underline underline-offset-4">
+							Pricing
+						</Link>
+					</SignedOut>
 				</nav>
 				<div className="flex items-center gap-4">
 					<SignedOut>

@@ -11,14 +11,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import Link from "next/link";
 import { BookOpen, Clock } from "lucide-react";
-import { DashboardShell } from "@/components/dashboard/shell";
 import { DashboardHeader } from "@/components/dashboard/header";
-import { QuizStats } from "@/components/charts/quiz-stats";
+// import { QuizStats } from "@/components/charts/quiz-stats";
 import { RecentQuizzes } from "@/components/recent-quizzes";
 
 export default function StudentDashboardPage() {
 	return (
-		<DashboardShell>
+		<div className="p-2">
 			<DashboardHeader
 				heading="Student Dashboard"
 				text="Practice quizzes and complete your assignments.">
@@ -29,12 +28,11 @@ export default function StudentDashboardPage() {
 					</Button>
 				</Link>
 			</DashboardHeader>
-			<div className="grid gap-4 md:gap-8">
+			<div className="grid gap-4 md:gap-8 my-4">
 				<Tabs defaultValue="overview" className="space-y-4">
 					<TabsList>
 						<TabsTrigger value="overview">Overview</TabsTrigger>
 						<TabsTrigger value="assignments">Assignments</TabsTrigger>
-						<TabsTrigger value="practice">Practice</TabsTrigger>
 					</TabsList>
 					<TabsContent value="overview" className="space-y-4">
 						<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -88,14 +86,6 @@ export default function StudentDashboardPage() {
 									<RecentQuizzes />
 								</CardContent>
 							</Card>
-							<Card className="col-span-3">
-								<CardHeader>
-									<CardTitle>Performance by Subject</CardTitle>
-								</CardHeader>
-								<CardContent>
-									<QuizStats />
-								</CardContent>
-							</Card>
 						</div>
 					</TabsContent>
 					<TabsContent value="assignments" className="space-y-4">
@@ -127,38 +117,8 @@ export default function StudentDashboardPage() {
 							))}
 						</div>
 					</TabsContent>
-					<TabsContent value="practice" className="space-y-4">
-						<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-							{[
-								"Physics",
-								"Chemistry",
-								"Biology",
-								"Mathematics",
-								"History",
-								"English",
-							].map((subject, i) => (
-								<Card key={i}>
-									<CardHeader>
-										<CardTitle>{subject}</CardTitle>
-										<CardDescription>
-											Practice questions on various {subject.toLowerCase()}{" "}
-											topics
-										</CardDescription>
-									</CardHeader>
-									<CardContent>
-										<p className="text-sm text-muted-foreground">
-											Generate custom quizzes to test your knowledge
-										</p>
-									</CardContent>
-									<CardFooter>
-										<Button className="w-full">Practice Now</Button>
-									</CardFooter>
-								</Card>
-							))}
-						</div>
-					</TabsContent>
 				</Tabs>
 			</div>
-		</DashboardShell>
+		</div>
 	);
 }

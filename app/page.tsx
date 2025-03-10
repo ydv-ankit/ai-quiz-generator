@@ -4,7 +4,6 @@ import Link from "next/link";
 import { ArrowRight, BookOpen, GraduationCap, Users } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { SignInButton } from "@clerk/nextjs";
-import { currentUser } from "@clerk/nextjs/server";
 
 export default async function Home() {
 	return (
