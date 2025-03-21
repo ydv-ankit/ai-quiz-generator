@@ -1,5 +1,5 @@
 import env from "@/lib/env";
-import { Client, Avatars, Databases, Storage, Users } from "node-appwrite";
+import { Client, Avatars, Databases, Users } from "node-appwrite";
 
 const client = new Client()
 	.setEndpoint(env.appwrite.endpoint)

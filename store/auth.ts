@@ -18,7 +18,8 @@ interface IAuthStore {
 	verifySession(): Promise<void>;
 	login(
 		email: string,
-		password: string
+		password: string,
+		role?: UserPrefs["role"]
 	): Promise<{
 		success: boolean;
 		error?: AppwriteException | null;
@@ -26,8 +27,7 @@ interface IAuthStore {
 	createAccount(
 		name: string,
 		email: string,
-		password: string,
-		role: UserPrefs["role"]
+		password: string
 	): Promise<{
 		success: boolean;
 		error?: AppwriteException | null;
@@ -58,13 +58,19 @@ export const useAuthStore = create<IAuthStore>()(
 					console.log(error);
 				}
 			},
-			async login(email, password) {
+			async login(email, password, role) {
 				try {
+					console.log(role);
+
 					const session = await account.createEmailPasswordSession(email, password);
+					await account.updatePrefs<UserPrefs>({
+						role,
+					});
 					const [user, { jwt }] = await Promise.all([
 						account.get<UserPrefs>(),
 						account.createJWT(),
 					]);
+
 					set({
 						session,
 						user,
@@ -77,12 +83,9 @@ export const useAuthStore = create<IAuthStore>()(
 					return { success: false, error: err };
 				}
 			},
-			async createAccount(name, email, password, role) {
+			async createAccount(name, email, password) {
 				try {
 					await account.create(ID.unique(), email, password, name);
-					await account.updatePrefs<UserPrefs>({
-						role,
-					});
 					return {
 						success: true,
 					};

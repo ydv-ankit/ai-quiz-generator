@@ -27,7 +27,7 @@ import { QuizFormSchema } from "@/lib/formSchema";
 import { WandSparkles, X } from "lucide-react";
 import { KeyboardEvent, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { useAuthStore } from "@/store/user";
+import { useAuthStore } from "@/store/auth";
 
 export default function CreateQuestion() {
 	const [topicValue, setTopicValue] = useState<string>("");
