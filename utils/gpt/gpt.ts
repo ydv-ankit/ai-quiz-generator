@@ -7,7 +7,7 @@ export const GenerateQuizContent = async (
 	content: string
 ): Promise<TGenerateQuiz[] | undefined> => {
 	try {
-		const total_questions = JSON.parse(content).constraints.total_questions;
+		const total_questions = JSON.parse(content).total_questions;
 		const response_structure = z.object({
 			questions: z.array(
 				z.object({
@@ -51,14 +51,9 @@ export const GenerateQuizContent = async (
 				{ role: "user", content: content },
 			],
 			model: "gpt-4o-mini",
-			response_format: zodResponseFormat(
-				response_structure,
-				"response_structure"
-			),
+			response_format: zodResponseFormat(response_structure, "response_structure"),
 		});
-		return (
-			JSON.parse(shortDescription.choices[0].message.content as string) || null
-		);
+		return JSON.parse(shortDescription.choices[0].message.content as string) || null;
 	} catch (error) {
 		throw new Error(`Error generating response: ${error}`);
 		return;

@@ -10,12 +10,9 @@ export type TGenerateQuiz = {
 };
 
 export type TGptBody = {
-	content: {
-		subject: string;
-		topics: string[];
-	}[];
-	constraints: {
-		total_questions: number;
-		difficulty_level: "easy" | "medium" | "hard";
-	};
+	subject: string;
+	topics: string[];
+	total_questions: number;
+	difficulty_level: "easy" | "medium" | "hard";
+	additional_details: string;
 };

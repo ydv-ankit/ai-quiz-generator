@@ -25,11 +25,14 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { QuizFormSchema } from "@/lib/formSchema";
 import { WandSparkles, X } from "lucide-react";
-import { KeyboardEvent, useEffect, useState } from "react";
+import { KeyboardEvent, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuthStore } from "@/store/user";
 
 export default function CreateQuestion() {
 	const [topicValue, setTopicValue] = useState<string>("");
+	const { session } = useAuthStore();
+	console.log(session);
 
 	const form = useForm<z.infer<typeof QuizFormSchema>>({
 		resolver: zodResolver(QuizFormSchema),
@@ -43,14 +46,26 @@ export default function CreateQuestion() {
 	});
 	form.watch("topics");
 
-	function onSubmit(data: z.infer<typeof QuizFormSchema>) {
-		toast("You submitted the following values:", {
-			description: (
-				<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-					<code className="text-white">{JSON.stringify(data, null, 2)}</code>
-				</pre>
-			),
-		});
+	async function onSubmit(data: z.infer<typeof QuizFormSchema>) {
+		try {
+			await fetch("/api/create", {
+				method: "POST",
+				body: JSON.stringify({
+					creatorId: session?.$id,
+					data: data,
+				}),
+			});
+		} catch (error) {
+			console.log(error);
+
+			toast("Error", {
+				description: (
+					<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+						<code className="text-white">Error creating quiz...</code>
+					</pre>
+				),
+			});
+		}
 	}
 
 	function handleTopicDelete(idx: number) {
