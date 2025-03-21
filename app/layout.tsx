@@ -3,6 +3,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/navbar";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
 	title: "AI Quiz Generator",
@@ -16,11 +17,17 @@ export default function RootLayout({
 }>) {
 	return (
 		<ClerkProvider>
-			<html lang="en">
+			<html lang="en" suppressHydrationWarning>
 				<body>
-					<Navbar />
-					{children}
-					<Toaster />
+					<ThemeProvider
+						attribute="class"
+						defaultTheme="system"
+						enableSystem
+						disableTransitionOnChange>
+						<Navbar />
+						{children}
+						<Toaster />
+					</ThemeProvider>
 				</body>
 			</html>
 		</ClerkProvider>

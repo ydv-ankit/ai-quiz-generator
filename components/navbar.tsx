@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { APP_NAME } from "@/utils/constants";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { ModeToggle } from "./theme-toggle";
 
 export const Navbar = () => {
 	return (
@@ -16,9 +17,7 @@ export const Navbar = () => {
 				</Link>
 				<nav className="hidden md:flex gap-6">
 					<SignedIn>
-						<Link
-							href="/"
-							className="text-sm font-medium hover:underline underline-offset-4">
+						<Link href="/" className="text-sm font-medium hover:underline underline-offset-4">
 							Home
 						</Link>
 						<Link
@@ -41,6 +40,7 @@ export const Navbar = () => {
 					</SignedOut>
 				</nav>
 				<div className="flex items-center gap-4">
+					<ModeToggle />
 					<SignedOut>
 						<SignInButton>
 							<Button className="hidden md:inline-flex">Get Started</Button>
