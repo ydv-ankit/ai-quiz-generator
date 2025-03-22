@@ -7,11 +7,10 @@ import React from "react";
 const Layout = ({ children }: { children: React.ReactNode }) => {
 	const { session } = useAuthStore();
 	const router = useRouter();
-	console.log(session);
 
 	React.useEffect(() => {
 		if (session) {
-			router.push("/");
+			router.push("/dashboard");
 		}
 	}, [session, router]);
 

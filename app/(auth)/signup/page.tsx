@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useAuthStore, UserPrefs } from "@/store/auth";
+import { useAuthStore } from "@/store/auth";
 import {
 	Select,
 	SelectContent,
@@ -47,7 +47,7 @@ export default function Register() {
 		const email = formData.get("email");
 		const password = formData.get("password");
 		const role = formData.get("role");
-		console.log("role", role);
+		const teamId = formData.get("teamId");
 
 		if (!firstname || !lastname || !email || !password) {
 			setError(() => "Please fill out all fields");
@@ -58,19 +58,17 @@ export default function Register() {
 		setError(() => "");
 
 		const response = await createAccount(
-			`${firstname} ${lastname}`,
-			email.toString(),
-			password.toString()
+			`${String(firstname)} ${String(lastname)}`,
+			String(email),
+			String(password),
+			String(role),
+			String(teamId)
 		);
 
 		if (response.error) {
 			setError(() => response.error!.message);
 		} else {
-			const loginResponse = await login(
-				email.toString(),
-				password.toString(),
-				role as UserPrefs["role"]
-			);
+			const loginResponse = await login(email.toString(), password.toString());
 			if (loginResponse.error) {
 				setError(() => loginResponse.error!.message);
 			}
@@ -122,6 +120,10 @@ export default function Register() {
 							<SelectItem value="teacher">Teacher</SelectItem>
 						</SelectContent>
 					</Select>
+				</LabelInputContainer>
+				<LabelInputContainer className="mb-4">
+					<Label htmlFor="teamId">Team Id</Label>
+					<Input id="teamId" name="teamId" placeholder="unique team id" type="text" />
 				</LabelInputContainer>
 
 				<button

@@ -28,11 +28,12 @@ import { WandSparkles, X } from "lucide-react";
 import { KeyboardEvent, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuthStore } from "@/store/auth";
+import { useRouter } from "next/navigation";
 
 export default function CreateQuestion() {
 	const [topicValue, setTopicValue] = useState<string>("");
-	const { session } = useAuthStore();
-	console.log(session);
+	const { user } = useAuthStore();
+	const router = useRouter();
 
 	const form = useForm<z.infer<typeof QuizFormSchema>>({
 		resolver: zodResolver(QuizFormSchema),
@@ -48,13 +49,15 @@ export default function CreateQuestion() {
 
 	async function onSubmit(data: z.infer<typeof QuizFormSchema>) {
 		try {
-			await fetch("/api/create", {
+			const response = await fetch("/api/create", {
 				method: "POST",
 				body: JSON.stringify({
-					creatorId: session?.$id,
+					creatorId: user?.$id,
 					data: data,
 				}),
 			});
+			const quiz = await response.json();
+			router.push(`/generate/${quiz.data.$id}`);
 		} catch (error) {
 			console.log(error);
 
@@ -115,7 +118,7 @@ export default function CreateQuestion() {
 								return (
 									<div
 										key={idx}
-										className="flex items-center text-sm gap-2 bg-blue-700 w-fit rounded-full px-3 py-1">
+										className="flex items-center text-sm gap-2 text-blue-100 bg-blue-700 w-fit rounded-full px-3 py-1">
 										<span className="">{topic}</span>
 										<X
 											size={14}
@@ -189,7 +192,7 @@ export default function CreateQuestion() {
 					<Button
 						type="submit"
 						variant={"outline"}
-						className="bg-blue-800 hover:bg-blue-600 w-full">
+						className="text-blue-100 hover:text-blue-100 bg-blue-800 hover:bg-blue-600 w-full">
 						<span>Generate</span>
 						<WandSparkles />
 					</Button>

@@ -3,9 +3,7 @@ import { openai } from "./client";
 import { z } from "zod";
 import { TGenerateQuiz } from "@/types/gpt";
 
-export const GenerateQuizContent = async (
-	content: string
-): Promise<TGenerateQuiz[] | undefined> => {
+export const GenerateQuizContent = async (content: string) => {
 	try {
 		const total_questions = JSON.parse(content).total_questions;
 		const response_structure = z.object({
