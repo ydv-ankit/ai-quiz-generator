@@ -47,10 +47,7 @@ export const Navbar = () => {
 									<DropdownMenuTrigger asChild>
 										<Avatar>
 											<AvatarImage
-												src={`https://avatar.iran.liara.run/username?username=${user?.name.replace(
-													" ",
-													"+"
-												)}`}
+												src={`https://ui-avatars.com/api/?name=${user?.name.replace(" ", "+")}`}
 												className="cursor-pointer"
 											/>
 											<AvatarFallback>{user?.name.substring(0, 2)}</AvatarFallback>
