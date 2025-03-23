@@ -4,4 +4,3 @@ export const questionCollectionId = "67dd8d160010e590ce7e";
 export const resultsCollectionId = "67de7aa300045e60d0c3";
 export const userCollectionId = "67de794b0030310bfa8d";
 export const assignmentCollectionId = "67de81dd000913f1eda7";
-export const teamCollectionId = "67de9588002af30a7311";
