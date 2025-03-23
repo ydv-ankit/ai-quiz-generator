@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/auth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -13,10 +13,12 @@ export default function Quiz({ params }: { params: Promise<{ quizId: string }> }
 	const { user } = useAuthStore();
 	const router = useRouter();
 
+	const searchParams = useSearchParams();
+
 	const handleSaveQuiz = async () => {
 		try {
 			const { quizId } = await params;
-			await fetch("/api/assignment", {
+			await fetch("/api/assignments", {
 				method: "POST",
 				body: JSON.stringify({
 					quizId,
@@ -90,9 +92,15 @@ export default function Quiz({ params }: { params: Promise<{ quizId: string }> }
 									</div>
 								);
 							})}
-							<Button className="mx-auto w-fit" onClick={handleSaveQuiz}>
-								Save
-							</Button>
+							{searchParams.get("view") === "allow" ? (
+								<Button className="mx-auto w-fit" onClick={() => router.back()}>
+									Back
+								</Button>
+							) : (
+								<Button className="mx-auto w-fit" onClick={handleSaveQuiz}>
+									Save
+								</Button>
+							)}
 						</div>
 					</div>
 				)}

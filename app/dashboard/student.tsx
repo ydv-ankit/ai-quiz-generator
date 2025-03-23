@@ -20,7 +20,6 @@ import { useAuthStore } from "@/store/auth";
 
 export default function StudentDashboardPage() {
 	const { user } = useAuthStore();
-	console.log(user);
 
 	const router = useRouter();
 
