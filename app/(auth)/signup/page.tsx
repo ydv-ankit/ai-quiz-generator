@@ -48,8 +48,6 @@ export default function Register() {
 		const lastname = formData.get("lastname");
 		const email = formData.get("email");
 		const password = formData.get("password");
-		const role = formData.get("role");
-		const teamId = formData.get("teamId");
 
 		if (!firstname || !lastname || !email || !password) {
 			setError(() => "Please fill out all fields");
@@ -62,9 +60,7 @@ export default function Register() {
 		const response = await createAccount(
 			`${String(firstname)} ${String(lastname)}`,
 			String(email),
-			String(password),
-			String(role),
-			String(teamId)
+			String(password)
 		);
 
 		if (response.error) {
@@ -111,22 +107,6 @@ export default function Register() {
 				<LabelInputContainer className="mb-4">
 					<Label htmlFor="password">Password</Label>
 					<Input id="password" name="password" placeholder="••••••••" type="password" />
-				</LabelInputContainer>
-				<LabelInputContainer className="mb-4">
-					<Label htmlFor="password">Profession</Label>
-					<Select name="role">
-						<SelectTrigger className="w-[220px]">
-							<SelectValue placeholder="Choose your profession" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="student">Student</SelectItem>
-							<SelectItem value="teacher">Teacher</SelectItem>
-						</SelectContent>
-					</Select>
-				</LabelInputContainer>
-				<LabelInputContainer className="mb-4">
-					<Label htmlFor="teamId">Team Id</Label>
-					<Input id="teamId" name="teamId" placeholder="unique team id" type="text" />
 				</LabelInputContainer>
 
 				<button

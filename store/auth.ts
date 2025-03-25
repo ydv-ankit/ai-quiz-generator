@@ -24,9 +24,7 @@ interface IAuthStore {
 	createAccount(
 		name: string,
 		email: string,
-		password: string,
-		role: string,
-		teamId: string
+		password: string
 	): Promise<{
 		success: boolean;
 		error?: AppwriteException | null;
@@ -67,8 +65,6 @@ export const useAuthStore = create<IAuthStore>()(
 						]),
 						account.createJWT(),
 					]);
-					const t = user.documents[0];
-					console.log("logged in user", t);
 
 					set({
 						session,
@@ -82,17 +78,13 @@ export const useAuthStore = create<IAuthStore>()(
 					return { success: false, error: err };
 				}
 			},
-			async createAccount(name, email, password, role, teamId) {
+			async createAccount(name, email, password) {
 				try {
 					const user = await account.create(ID.unique(), email, password, name);
 					await databases.createDocument(dbId, userCollectionId, ID.unique(), {
 						name,
 						email,
-						role,
 						userId: user.$id,
-						teamCollection: {
-							name: teamId,
-						},
 					});
 					return {
 						success: true,
@@ -128,3 +120,12 @@ export const useAuthStore = create<IAuthStore>()(
 		}
 	)
 );
+
+export const getLoggedInSession = async () => {
+	try {
+		const session = await account.getSession("current");
+		return session;
+	} catch (error) {
+		return null;
+	}
+};
