@@ -2,9 +2,48 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "./ui/button";
 import { useState } from "react";
+import { toast } from "sonner";
+import { useAuthStore } from "@/store/auth";
+import { useRouter } from "next/navigation";
 
-export const QuizQuestions = ({ questions }: { questions: Array<any> }) => {
+export const QuizQuestions = ({
+	questions,
+	quizId,
+}: {
+	questions: Array<any>;
+	quizId: Promise<{
+		quizId: string;
+	}>;
+}) => {
 	const [selections, setSelections] = useState<Array<string>>(new Array(questions?.length));
+	const { user } = useAuthStore();
+	const router = useRouter();
+
+	const handleSubmitQuiz = async () => {
+		try {
+			const res = await fetch("/api/quiz", {
+				method: "POST",
+				body: JSON.stringify({
+					attempts: selections,
+					questions,
+					userId: user?.$id,
+					quizId: (await quizId).quizId,
+				}),
+			});
+			const data = await res.json();
+			router.push(`/results/${data.result.$id}`);
+		} catch (error: any) {
+			console.log(error);
+
+			toast("Error", {
+				description: (
+					<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+						<code className="text-white">Error creating quiz...</code>
+					</pre>
+				),
+			});
+		}
+	};
 
 	const handleSelectOption = (e: any, idx: number) => {
 		selections[idx] = e;
@@ -59,7 +98,9 @@ export const QuizQuestions = ({ questions }: { questions: Array<any> }) => {
 						</div>
 					);
 				})}
-				<Button className="mx-auto w-fit">Submit</Button>
+				<Button className="mx-auto w-fit" onClick={handleSubmitQuiz}>
+					Submit
+				</Button>
 			</div>
 		</div>
 	);

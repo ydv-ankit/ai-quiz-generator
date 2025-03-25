@@ -2,32 +2,16 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "./ui/button";
 import { capitalizeFirstLetter } from "@/utils/helper";
 import { toast } from "sonner";
-import { revalidatePath } from "next/cache";
+import { useEffect, useState } from "react";
+import { AssignmentData } from "@/app/dashboard/page";
+import { useAuthStore } from "@/store/auth";
+import { useRouter } from "next/navigation";
 
-export const Assignment = ({ assignments }: { assignments: Array<any> }) => {
-	const handlePostAssignment = async (id: string) => {
-		try {
-			await fetch("/api/assignments", {
-				method: "PUT",
-				body: JSON.stringify({
-					assignmentId: id,
-				}),
-			});
-			revalidatePath("/dashboard");
-		} catch (error) {
-			toast("Error", {
-				description: (
-					<pre>
-						<code>Error! Cannot post assignment</code>
-					</pre>
-				),
-			});
-		}
-	};
-
+export const PendingAssignment = ({ assignments }: { assignments: AssignmentData }) => {
+	const router = useRouter();
 	return (
 		<>
-			{assignments.map((assignment, i) => (
+			{assignments.documents.map((assignment, i) => (
 				<Card key={i}>
 					<CardHeader>
 						<CardTitle>
@@ -48,8 +32,10 @@ export const Assignment = ({ assignments }: { assignments: Array<any> }) => {
 								Posted
 							</div>
 						) : (
-							<Button className="w-full" onClick={() => handlePostAssignment(assignment.$id)}>
-								Post
+							<Button
+								className="w-full"
+								onClick={() => router.push(`/quiz/${assignment.quizCollection.$id}`)}>
+								Practice Now
 							</Button>
 						)}
 					</CardFooter>

@@ -73,7 +73,7 @@ export const Navbar = () => {
 							</div>
 						) : (
 							<div>
-								<Button variant={"outline"} onClick={() => router.push("/login")}>
+								<Button variant={"outline"} onClick={() => router.push("/")}>
 									Login
 								</Button>
 							</div>
