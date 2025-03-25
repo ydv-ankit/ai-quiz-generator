@@ -1,12 +1,16 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
-import { ArrowRight, BookOpen, GraduationCap, Users } from "lucide-react";
+import { BookOpen, GraduationCap, Users } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { Globe } from "@/components/magicui/globe";
 import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
+import { useRouter } from "next/navigation";
 
-export default async function Home() {
+export default function Home() {
+	const router = useRouter();
 	return (
 		<div className="flex flex-col min-h-screen">
 			<main className="flex-1">
@@ -26,7 +30,7 @@ export default async function Home() {
 								</div>
 								<div className="flex flex-col gap-2 min-[400px]:flex-row items-center">
 									<div className="w-fit flex items-center justify-center gap-2 bg-black hover:bg-black/80 duration-200 text-white rounded-md p-2 px-4 cursor-pointer text-sm font-thin">
-										<Button>Create Now</Button>
+										<Button onClick={() => router.push("/generate")}>Create Now</Button>
 									</div>
 									<Link href="/#features">
 										<Button size="lg" variant="outline" className="w-full">

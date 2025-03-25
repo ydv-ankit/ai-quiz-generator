@@ -23,7 +23,7 @@ export default function Quiz({ params }: { params: Promise<{ quizId: string }> }
 				body: JSON.stringify({
 					quizId,
 					creatorId: user?.$id,
-					status: "unposted",
+					status: "pending",
 				}),
 			});
 			router.push("/dashboard");

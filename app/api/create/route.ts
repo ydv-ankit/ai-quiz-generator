@@ -25,7 +25,6 @@ export const POST = async (request: NextRequest) => {
 			topics: JSON.stringify(data.topics),
 			userCollection: creatorId,
 		});
-		console.log("quizResponse", quizResponse);
 		// add questions to question collection
 		for (const ques of gptResponse.questions) {
 			await databases.createDocument(dbId, questionCollectionId, ID.unique(), {
@@ -35,7 +34,6 @@ export const POST = async (request: NextRequest) => {
 				quizCollection: quizResponse.$id,
 			});
 		}
-		console.log("questions added");
 		return NextResponse.json(new ApiResponse("success", "quiz created successfully", quizResponse));
 	} catch (error) {
 		console.log(error);

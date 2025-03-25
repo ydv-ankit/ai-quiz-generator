@@ -4,9 +4,9 @@ import React from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { IconBrandGithub, IconBrandGoogle } from "@tabler/icons-react";
 import Link from "next/link";
 import { useAuthStore } from "@/store/auth";
+import { useRouter } from "next/navigation";
 
 const BottomGradient = () => {
 	return (
@@ -31,6 +31,7 @@ export default function Login() {
 	const { login } = useAuthStore();
 	const [isLoading, setIsLoading] = React.useState(false);
 	const [error, setError] = React.useState("");
+	const router = useRouter();
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -53,6 +54,7 @@ export default function Login() {
 		}
 
 		setIsLoading(() => false);
+		router.push("/dashboard");
 	};
 
 	return (

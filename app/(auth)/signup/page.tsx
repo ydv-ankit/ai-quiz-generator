@@ -13,6 +13,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { useRouter } from "next/navigation";
 
 const BottomGradient = () => {
 	return (
@@ -37,6 +38,7 @@ export default function Register() {
 	const { login, createAccount } = useAuthStore();
 	const [isLoading, setIsLoading] = React.useState(false);
 	const [error, setError] = React.useState("");
+	const router = useRouter();
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -75,6 +77,7 @@ export default function Register() {
 		}
 
 		setIsLoading(() => false);
+		router.push("/dashboard");
 	};
 
 	return (

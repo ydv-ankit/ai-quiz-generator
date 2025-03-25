@@ -39,7 +39,7 @@ export default function Quiz({ params }: { params: Promise<{ quizId: string }> }
 			<h1 className="text-xl">Quiz Questions</h1>
 			<div className="my-6">
 				{error && <div className="text-red-700 bg-red-200 text-lg p-2">{error}</div>}
-				{questions?.length > 0 && <QuizQuestions questions={questions} />}
+				{questions?.length > 0 && <QuizQuestions questions={questions} quizId={params} />}
 			</div>
 		</div>
 	);
