@@ -14,6 +14,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const BottomGradient = () => {
 	return (
@@ -56,24 +57,33 @@ export default function Register() {
 
 		setIsLoading(() => true);
 		setError(() => "");
+		try {
+			const response = await createAccount(
+				`${String(firstname)} ${String(lastname)}`,
+				String(email),
+				String(password)
+			);
 
-		const response = await createAccount(
-			`${String(firstname)} ${String(lastname)}`,
-			String(email),
-			String(password)
-		);
-
-		if (response.error) {
-			setError(() => response.error!.message);
-		} else {
-			const loginResponse = await login(email.toString(), password.toString());
-			if (loginResponse.error) {
-				setError(() => loginResponse.error!.message);
+			if (response.error) {
+				setError(() => response.error!.message);
+			} else {
+				const loginResponse = await login(email.toString(), password.toString());
+				if (loginResponse.error) {
+					setError(() => loginResponse.error!.message);
+				}
+				router.push("/dashboard");
 			}
+		} catch (error) {
+			toast("Error", {
+				description: (
+					<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+						<code className="text-white">Error creating account...</code>
+					</pre>
+				),
+			});
+		} finally {
+			setIsLoading(() => false);
 		}
-
-		setIsLoading(() => false);
-		router.push("/dashboard");
 	};
 
 	return (

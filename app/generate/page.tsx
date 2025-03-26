@@ -56,11 +56,10 @@ export default function CreateQuestion() {
 					data: data,
 				}),
 			});
-			const quiz = await response.json();
-			router.push(`/generate/${quiz.data.$id}`);
+			await response.json();
+			router.push(`/dashboard`);
 		} catch (error) {
 			console.log(error);
-
 			toast("Error", {
 				description: (
 					<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">

@@ -16,7 +16,15 @@ export const POST = async (request: NextRequest) => {
 		const gptResponse = await GenerateQuizContent(JSON.stringify(data));
 		console.log("gptResponse", gptResponse);
 		if (!gptResponse) {
-			return NextResponse.json(new ApiResponse("error", "error generating quiz"));
+			return NextResponse.json(
+				{
+					success: false,
+					error: "Error occured while generating quiz",
+				},
+				{
+					status: 500,
+				}
+			);
 		}
 
 		// create document for quiz
@@ -24,6 +32,7 @@ export const POST = async (request: NextRequest) => {
 			subject: data.subject,
 			topics: JSON.stringify(data.topics),
 			userCollection: creatorId,
+			status: "pending",
 		});
 		// add questions to question collection
 		for (const ques of gptResponse.questions) {
@@ -34,9 +43,25 @@ export const POST = async (request: NextRequest) => {
 				quizCollection: quizResponse.$id,
 			});
 		}
-		return NextResponse.json(new ApiResponse("success", "quiz created successfully", quizResponse));
-	} catch (error) {
+		return NextResponse.json(
+			{
+				success: true,
+				quizId: quizResponse.$id,
+			},
+			{
+				status: 201,
+			}
+		);
+	} catch (error: any) {
 		console.log(error);
-		return NextResponse.json(new ApiResponse("error", error as string));
+		return NextResponse.json(
+			{
+				success: false,
+				error: error?.message || "Error occured",
+			},
+			{
+				status: 500,
+			}
+		);
 	}
 };

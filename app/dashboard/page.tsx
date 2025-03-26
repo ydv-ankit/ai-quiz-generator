@@ -8,6 +8,7 @@ import { DashboardHeader } from "@/components/dashboard/header";
 import { useAuthStore } from "@/store/auth";
 import { PendingAssignment } from "@/components/pending-assignments";
 import { useEffect, useState } from "react";
+import { Loader } from "@/components/loader";
 
 export interface AssignmentData {
 	total: number;
@@ -20,7 +21,9 @@ enum Views {
 }
 
 export default function TeacherDashboardPage() {
-	const [pendingAssignments, setPendingAssignments] = useState<AssignmentData>({
+	const [isLoading, setIsLoading] = useState(true);
+
+	const [pendingQuizzes, setPendingQuizzes] = useState<AssignmentData>({
 		total: 0,
 		documents: [],
 	});
@@ -32,17 +35,25 @@ export default function TeacherDashboardPage() {
 	const { user } = useAuthStore();
 
 	const handleGetAssignments = async (type: "pending" | "completed") => {
-		const res = await fetch(`/api/assignments?type=${type}&creatorId=${user?.$id}`);
+		if (!user) return;
+		setIsLoading(true);
+		const res = await fetch(`/api/quiz/all?type=${type}&creatorId=${user?.$id}`);
 		const data = await res.json();
 		console.log(type, data);
 
-		if (type === "pending") setPendingAssignments(data.data);
+		if (type === "pending") setPendingQuizzes(data.data);
 		if (type === "completed") setCompletedAssignments(data.data);
+		setIsLoading(false);
 	};
 	useEffect(() => {
 		handleGetAssignments("pending");
 		handleGetAssignments("completed");
 	}, [user?.$id]);
+
+	if (!user) {
+		return <Loader />;
+	}
+	console.log(pendingQuizzes);
 
 	return (
 		<div className="p-2">
@@ -75,7 +86,7 @@ export default function TeacherDashboardPage() {
 						</CardHeader>
 						<CardContent>
 							<div className="flex items-center justify-between">
-								<div className="text-2xl font-bold">{pendingAssignments?.total}</div>
+								<div className="text-2xl font-bold">{pendingQuizzes?.total}</div>
 								<Button onClick={() => setView(Views.PA)}>View</Button>
 							</div>
 						</CardContent>
@@ -99,7 +110,7 @@ export default function TeacherDashboardPage() {
 					<div className="w-full">
 						<h1 className="text-xl font-bold mb-2">Pending Quizzes</h1>
 						<div className="flex items-center gap-2 flex-wrap gap-y-2">
-							{pendingAssignments && <PendingAssignment assignments={pendingAssignments} />}
+							{pendingQuizzes && <PendingAssignment quizzes={pendingQuizzes} />}
 						</div>
 					</div>
 				)}

@@ -15,30 +15,58 @@ export const QuizQuestions = ({
 		quizId: string;
 	}>;
 }) => {
-	const [selections, setSelections] = useState<Array<string>>(new Array(questions?.length));
+	const [selections, setSelections] = useState<Array<string | undefined>>(
+		Array.from({ length: questions.length }, () => undefined)
+	);
 	const { user } = useAuthStore();
 	const router = useRouter();
 
 	const handleSubmitQuiz = async () => {
 		try {
-			const res = await fetch("/api/quiz", {
+			// check if all selections are made
+			if (selections.find((e) => e === undefined)) {
+				toast("Please select all options", {
+					description: (
+						<pre className="mt-2 w-[340px] rounded-md dark:bg-slate-950 p-4">
+							<code className="text-white">Please select all options</code>
+						</pre>
+					),
+				});
+				return;
+			}
+			const bodyParams = {
+				attempts: selections,
+				questions,
+				userId: user?.$id,
+				quizId: (await quizId).quizId,
+			};
+			console.log("bodyParams", bodyParams);
+
+			const res = await fetch("/api/result", {
 				method: "POST",
-				body: JSON.stringify({
-					attempts: selections,
-					questions,
-					userId: user?.$id,
-					quizId: (await quizId).quizId,
-				}),
+				body: JSON.stringify(bodyParams),
 			});
 			const data = await res.json();
+			console.log("data", data);
+			if (!data.success) {
+				toast("Error", {
+					description: (
+						<pre className="mt-2 w-[340px] rounded-md dark:bg-slate-950 p-4">
+							<code className="dark:text-white">Error getting result...</code>
+						</pre>
+					),
+				});
+				return;
+			}
+
 			router.push(`/results/${data.result.$id}`);
 		} catch (error: any) {
 			console.log(error);
 
 			toast("Error", {
 				description: (
-					<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-						<code className="text-white">Error creating quiz...</code>
+					<pre className="mt-2 w-[340px] rounded-md dark:bg-slate-950 p-4">
+						<code className="dark:text-white">Error creating quiz...</code>
 					</pre>
 				),
 			});
@@ -48,7 +76,6 @@ export const QuizQuestions = ({
 	const handleSelectOption = (e: any, idx: number) => {
 		selections[idx] = e;
 		setSelections(() => selections);
-		console.log(selections[7]);
 	};
 
 	return (
