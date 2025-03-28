@@ -8,6 +8,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { AssignmentData } from "@/app/dashboard/page";
+import { capitalizeFirstLetter } from "@/utils/helper";
 
 export const CompletedQuizzes = ({ results }: { results: AssignmentData }) => {
 	return (
@@ -27,7 +28,9 @@ export const CompletedQuizzes = ({ results }: { results: AssignmentData }) => {
 					{results.documents.map((result, i) => (
 						<TableRow key={i}>
 							<TableCell className="font-medium">{i + 1}</TableCell>
-							<TableCell className="font-medium">{String(result.$id)}</TableCell>
+							<TableCell className="font-medium">
+								{capitalizeFirstLetter(String(result.$id))}
+							</TableCell>
 							<TableCell>{result.quizCollection.subject}</TableCell>
 							<TableCell>{JSON.parse(result.quizCollection.topics).join(", ")}</TableCell>
 							<TableCell className="text-right">
