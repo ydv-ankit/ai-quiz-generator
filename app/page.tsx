@@ -30,7 +30,7 @@ export default function Home() {
 								</div>
 								<div className="flex flex-col gap-2 min-[400px]:flex-row items-center">
 									<div className="w-fit flex items-center justify-center gap-2 bg-black hover:bg-zinc-100/30 duration-200 text-white rounded-md cursor-pointer text-sm font-thin">
-										<Button size="lg" onClick={() => router.push("/generate")}>
+										<Button size="lg" onClick={() => router.push("/login")}>
 											Create Now
 										</Button>
 									</div>
