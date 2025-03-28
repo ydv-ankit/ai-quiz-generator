@@ -48,7 +48,7 @@ export default function Dashboard() {
 
 			const avg = Number(resultantTotalScore) / Number(totalScore);
 
-			setAverageScore(() => Math.floor(avg) * 100);
+			setAverageScore(() => Math.floor(avg * 100));
 		})();
 	}, [results]);
 
