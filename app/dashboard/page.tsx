@@ -86,9 +86,7 @@ export default function Dashboard() {
 
 	return (
 		<div className="p-2">
-			<DashboardHeader
-				heading="Dashboard"
-				text="Create and new quizzes and evaluate your knowledge">
+			<DashboardHeader heading="Dashboard" text="Create new quizzes and evaluate your knowledge">
 				<Link href="/generate">
 					<Button>
 						<BookOpen className="mr-2 h-4 w-4" />
@@ -133,15 +131,24 @@ export default function Dashboard() {
 					<div className="w-full">
 						<h1 className="text-xl font-bold mb-2">Recent Quizzes</h1>
 						<div className="flex items-center gap-2 flex-wrap gap-y-2">
-							<CompletedQuizzes results={results} />
+							{results.documents.length > 0 ? (
+								<CompletedQuizzes results={results} />
+							) : (
+								<div className="mx-auto mt-2">Complete a quiz and come back...</div>
+							)}
 						</div>
 					</div>
 				)}
 				{view === Views.PA && (
 					<div className="w-full">
 						<h1 className="text-xl font-bold mb-2">Pending Quizzes</h1>
-						<div className="flex items-center gap-2 flex-wrap gap-y-2">
-							{pendingQuizzes && <PendingQuizzes quizzes={pendingQuizzes} />}
+						{/* <div className="flex items-center gap-2 flex-wrap gap-y-2"> */}
+						<div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
+							{pendingQuizzes.documents.length > 0 ? (
+								<PendingQuizzes quizzes={pendingQuizzes} />
+							) : (
+								<div className="mx-auto mt-2">Create a quiz first...</div>
+							)}
 						</div>
 					</div>
 				)}

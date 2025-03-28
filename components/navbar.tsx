@@ -30,7 +30,7 @@ export const Navbar = () => {
 
 	return (
 		<header className="border-b">
-			<div className="container flex h-16 items-center justify-between px-4 md:px-6">
+			<div className="w-full flex h-16 items-center justify-between px-4 md:px-6">
 				<Link href="/">
 					<div className="flex items-center gap-2">
 						<BookOpen className="h-6 w-6 text-primary" />
