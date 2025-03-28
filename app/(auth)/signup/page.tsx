@@ -6,13 +6,6 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useAuthStore } from "@/store/auth";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -74,6 +67,8 @@ export default function Register() {
 				router.push("/dashboard");
 			}
 		} catch (error) {
+			console.log(error);
+
 			toast("Error", {
 				description: (
 					<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">

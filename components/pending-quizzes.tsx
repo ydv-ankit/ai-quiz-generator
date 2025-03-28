@@ -20,11 +20,10 @@ export const PendingQuizzes = ({ quizzes }: { quizzes: AssignmentData }) => {
 						<p className="text-sm text-muted-foreground flex flex-col">
 							Topics
 							<span className="flex gap-2 flex-wrap">
-								{JSON.parse(quiz.topics).map((topic: string) => (
-									<span className="bg-zinc-300 text-zinc-700 rounded-md p-1">{topic}</span>
-								))}
-								{JSON.parse(quiz.topics).map((topic: string) => (
-									<span className="bg-zinc-300 text-zinc-700 rounded-md p-1">{topic}</span>
+								{JSON.parse(quiz.topics).map((topic: string, idx: number) => (
+									<span key={idx} className="bg-zinc-300 text-zinc-700 rounded-md p-1">
+										{topic}
+									</span>
 								))}
 							</span>
 						</p>

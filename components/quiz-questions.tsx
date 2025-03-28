@@ -10,7 +10,7 @@ export const QuizQuestions = ({
 	questions,
 	quizId,
 }: {
-	questions: Array<any>;
+	questions: Array<unknown>;
 	quizId: Promise<{
 		quizId: string;
 	}>;
@@ -60,7 +60,7 @@ export const QuizQuestions = ({
 			}
 
 			router.push(`/results/${data.result.$id}`);
-		} catch (error: any) {
+		} catch (error: unknown) {
 			console.log(error);
 
 			toast("Error", {
@@ -81,7 +81,7 @@ export const QuizQuestions = ({
 	return (
 		<div className="">
 			<div className="space-y-2 w-full">
-				{questions.map((ques, idx) => {
+				{questions.map((ques: any, idx) => {
 					return (
 						<div key={idx} className="flex flex-col gap-1 border-b m-4">
 							{/* question */}

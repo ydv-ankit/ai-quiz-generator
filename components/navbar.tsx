@@ -4,7 +4,6 @@ import { BookOpen } from "lucide-react";
 import Link from "next/link";
 import { APP_NAME } from "@/utils/constants";
 import { ModeToggle } from "./theme-toggle";
-import { account, avatars } from "@/models/client/config";
 import { useAuthStore } from "@/store/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";

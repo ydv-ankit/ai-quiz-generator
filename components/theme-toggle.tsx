@@ -23,7 +23,7 @@ export function ModeToggle() {
 	React.useEffect(() => {
 		const val = localStorage.getItem("theme");
 		setTheme(String(val));
-	}, []);
+	}, [setTheme]);
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
