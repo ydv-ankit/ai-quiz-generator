@@ -4,12 +4,12 @@ import { capitalizeFirstLetter } from "@/utils/helper";
 import { AssignmentData } from "@/app/dashboard/page";
 import { useRouter } from "next/navigation";
 
-export const PendingAssignment = ({ quizzes }: { quizzes: AssignmentData }) => {
+export const PendingQuizzes = ({ quizzes }: { quizzes: AssignmentData }) => {
 	const router = useRouter();
 	return (
 		<>
 			{quizzes.documents.map((quiz, i) => (
-				<Card key={i}>
+				<Card key={i} className="">
 					<CardHeader>
 						<CardTitle>{capitalizeFirstLetter(quiz.subject)} quiz</CardTitle>
 						<CardDescription>
@@ -17,9 +17,9 @@ export const PendingAssignment = ({ quizzes }: { quizzes: AssignmentData }) => {
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
-						<p className="text-sm text-muted-foreground">
-							Topics:{" "}
-							<span className=" bg-muted-foreground/10 p-2 rounded-md">
+						<p className="text-sm text-muted-foreground flex flex-col">
+							Topics
+							<span className=" bg-muted-foreground/10 p-2 rounded-md text-wrap">
 								{JSON.parse(quiz.topics).join(", ")}
 							</span>
 						</p>

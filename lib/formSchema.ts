@@ -10,7 +10,7 @@ const QuizFormSchema = z.object({
 		.min(5, "more than or equals to 5 questions required")
 		.max(20, "exceeded questions limit"),
 	difficulty_level: z.enum(["easy", "medium", "hard"]),
-	addition_details: z.string(),
+	additional_details: z.string(),
 });
 
 export { QuizFormSchema };

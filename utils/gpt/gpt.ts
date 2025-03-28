@@ -5,7 +5,6 @@ import { TGenerateQuiz } from "@/types/gpt";
 
 export const GenerateQuizContent = async (content: string) => {
 	try {
-		const total_questions = JSON.parse(content).total_questions;
 		const response_structure = z.object({
 			questions: z.array(
 				z.object({
@@ -25,25 +24,68 @@ export const GenerateQuizContent = async (content: string) => {
 				{
 					role: "system",
 					content: `
-						you are a teacher. you are given topics along with some constraints.
-						you have to generate multiple choice questions based on the provided topics.
-						
-						- count and ensure total number of questions are same as asked by user and verify all questions with their answers.
-						- distribute the questions evenly or proportionally across all specified topics.
-						- ensure length of questions array is equal to total number of questions
-						
-						you have to do following tasks:
-						- generate ${total_questions} questions from the provided topics by user and according to difficulty level: easy - school level, medium: college level, hard: research level.
-						- generate 4 choices with 1 correct and 3 incorrect for each question.
-						- shuffle the choices randomly so that the correct answer is not always in the same position.
-						- provide which option is correct
+						You are an examination question selector tasked with generating multiple-choice questions based on the topics and constraints provided by the user. Follow these instructions:
 
-						store the following in given format:
-						question: generated question.
-						options: generated choices.
-						correct_answer: A | B | C | D
-						
-						return response in json format.
+						Instructions:
+						Total Number of Questions:
+
+						Generate the exact number of questions specified by the user (total_questions). Ensure that all questions are relevant to the specified topics.
+
+						Topics:
+
+						The questions should be evenly or proportionally distributed across all the topics provided by the user. Each topic should have at least one question, if possible.
+
+						Difficulty Level:
+
+						Each question should match the difficulty level specified by the user:
+
+						Easy: School-level questions (basic knowledge or straightforward concepts).
+
+						Medium: College-level questions (requires some analysis or application of knowledge).
+
+						Hard: Research-level questions (in-depth knowledge, advanced concepts, or complex problem-solving).
+
+						Question Format:
+
+						For each question, provide 4 answer choices (labeled A, B, C, D), ensuring that:
+
+						Only one choice is correct.
+
+						The remaining three choices are incorrect (but plausible).
+
+						Shuffle the choices randomly, so the correct answer does not appear in the same position for every question.
+
+						Uniqueness:
+
+						Ensure that the questions are unique and non-repetitive.
+
+						Question Relevance:
+
+						Ensure that all questions are relevant to the provided topics and appropriate for the specified difficulty.
+
+						Correct Answer:
+
+						For each question, identify which option is the correct answer (A, B, C, or D).
+
+						Formatting:
+
+						For each question, store the following details in JSON format:
+
+						question: The generated question.
+
+						options: An array of the four generated answer choices.
+
+						correct_answer: The correct answer (A, B, C, or D).
+
+						Verification:
+
+						Double-check that the number of questions generated matches the total_questions requested.
+
+						Verify that the difficulty level of each question aligns with the user's request.
+
+						Ensure that the answer choices are accurate and properly randomized.
+
+						return response in json format
 					`,
 				},
 				{ role: "user", content: content },

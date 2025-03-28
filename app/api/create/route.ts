@@ -1,11 +1,5 @@
-import {
-	assignmentCollectionId,
-	dbId,
-	questionCollectionId,
-	quizCollectionId,
-} from "@/models/name";
+import { dbId, questionCollectionId, quizCollectionId } from "@/models/name";
 import { databases } from "@/models/server/config";
-import { ApiResponse } from "@/utils/ApiResponse";
 import { GenerateQuizContent } from "@/utils/gpt/gpt";
 import { NextRequest, NextResponse } from "next/server";
 import { ID } from "node-appwrite";

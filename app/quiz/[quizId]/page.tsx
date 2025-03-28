@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader } from "@/components/loader";
 import { QuizQuestions } from "@/components/quiz-questions";
 import { useEffect, useState } from "react";
 
@@ -31,7 +32,7 @@ export default function Quiz({ params }: { params: Promise<{ quizId: string }> }
 	}, [params]);
 
 	if (isLoading) {
-		return <div>Loading...</div>;
+		return <Loader />;
 	}
 
 	return (

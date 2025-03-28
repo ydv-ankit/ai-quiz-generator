@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -17,19 +18,22 @@ export default function ResultPage({ params }: { params: Promise<{ resultId: str
 		})();
 	}, []);
 
+	if (!result) {
+		return <Loader />;
+	}
+
 	return (
-		<div>
-			<h1>Quiz Completed</h1>
-			<div>Result</div>
-			<div>
-				<div>
-					<span>Total marks:</span>
-					<span>{result?.totalScore}</span>
+		<div className="flex items-center flex-col h-screen gap-3">
+			<h1 className="text-xl md:text-2xl font-bold my-4">Quiz Completed</h1>
+			<div className="flex items-center flex-col justify-center">
+				<div className="text-lg">
+					<span className="font-bold">Total marks:</span>
+					<span className="mx-2">{result?.totalScore}</span>
 				</div>
 
 				<div>
-					<span>Marks scored:</span>
-					<span>{result?.resultantScore}</span>
+					<span className="font-bold">Marks scored:</span>
+					<span className="mx-2">{result?.resultantScore}</span>
 				</div>
 			</div>
 			<Button onClick={() => router.push("/dashboard")}>Go to Dashboard</Button>

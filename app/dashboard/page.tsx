@@ -6,9 +6,10 @@ import Link from "next/link";
 import { BookOpen } from "lucide-react";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { useAuthStore } from "@/store/auth";
-import { PendingAssignment } from "@/components/pending-assignments";
+import { PendingQuizzes } from "@/components/pending-quizzes";
 import { useEffect, useState } from "react";
 import { Loader } from "@/components/loader";
+import { CompletedQuizzes } from "@/components/completed-quizzes";
 
 export interface AssignmentData {
 	total: number;
@@ -20,40 +21,68 @@ enum Views {
 	"PA",
 }
 
-export default function TeacherDashboardPage() {
-	const [isLoading, setIsLoading] = useState(true);
-
+export default function Dashboard() {
+	const [isLoading, setIsLoading] = useState(false);
+	const [averageScore, setAverageScore] = useState(0);
 	const [pendingQuizzes, setPendingQuizzes] = useState<AssignmentData>({
 		total: 0,
 		documents: [],
 	});
-	const [completedAssignments, setCompletedAssignments] = useState<AssignmentData>({
+	const [results, setResults] = useState<AssignmentData>({
 		total: 0,
 		documents: [],
 	});
-	const [view, setView] = useState<Views | null>(null);
+	const [view, setView] = useState<Views>(Views.CA);
 	const { user } = useAuthStore();
 
-	const handleGetAssignments = async (type: "pending" | "completed") => {
+	useEffect(() => {
+		(() => {
+			if (!results?.total) return 0;
+
+			let totalScore = 0;
+			let resultantTotalScore = 0;
+			for (const result of results.documents) {
+				totalScore += result.totalScore;
+				resultantTotalScore += result.resultantScore;
+			}
+
+			const avg = Number(resultantTotalScore) / Number(totalScore);
+
+			setAverageScore(() => avg * 100);
+		})();
+	}, [results]);
+
+	const handleGetResults = async () => {
+		try {
+			if (!user) return;
+			const res = await fetch(`/api/result/all?userId=${user?.$id}`);
+			const data = await res.json();
+
+			setResults(() => data.results);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const handleGetAssignments = async (type: "pending") => {
 		if (!user) return;
-		setIsLoading(true);
 		const res = await fetch(`/api/quiz/all?type=${type}&creatorId=${user?.$id}`);
 		const data = await res.json();
-		console.log(type, data);
 
-		if (type === "pending") setPendingQuizzes(data.data);
-		if (type === "completed") setCompletedAssignments(data.data);
-		setIsLoading(false);
+		setPendingQuizzes(() => data.data);
 	};
 	useEffect(() => {
-		handleGetAssignments("pending");
-		handleGetAssignments("completed");
+		(async () => {
+			setIsLoading(true);
+			await handleGetAssignments("pending");
+			await handleGetResults();
+			setIsLoading(false);
+		})();
 	}, [user?.$id]);
 
-	if (!user) {
+	if (!user || isLoading) {
 		return <Loader />;
 	}
-	console.log(pendingQuizzes);
 
 	return (
 		<div className="p-2">
@@ -75,7 +104,7 @@ export default function TeacherDashboardPage() {
 						</CardHeader>
 						<CardContent>
 							<div className="flex items-center justify-between">
-								<div className="text-2xl font-bold">{completedAssignments?.total}</div>
+								<div className="text-2xl font-bold">{results?.total}</div>
 								<Button onClick={() => setView(Views.CA)}>View</Button>
 							</div>
 						</CardContent>
@@ -96,21 +125,23 @@ export default function TeacherDashboardPage() {
 							<CardTitle className="text-sm font-medium">Average Score</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<div className="text-2xl font-bold">85%</div>
+							<div className="text-2xl font-bold">{averageScore}%</div>
 						</CardContent>
 					</Card>
 				</div>
 				{view === Views.CA && (
 					<div className="w-full">
-						<h1 className="text-xl font-bold mb-2">Recent Assignments</h1>
-						<div className="flex items-center gap-2 flex-wrap gap-y-2"></div>
+						<h1 className="text-xl font-bold mb-2">Recent Quizzes</h1>
+						<div className="flex items-center gap-2 flex-wrap gap-y-2">
+							<CompletedQuizzes results={results} />
+						</div>
 					</div>
 				)}
 				{view === Views.PA && (
 					<div className="w-full">
 						<h1 className="text-xl font-bold mb-2">Pending Quizzes</h1>
 						<div className="flex items-center gap-2 flex-wrap gap-y-2">
-							{pendingQuizzes && <PendingAssignment quizzes={pendingQuizzes} />}
+							{pendingQuizzes && <PendingQuizzes quizzes={pendingQuizzes} />}
 						</div>
 					</div>
 				)}

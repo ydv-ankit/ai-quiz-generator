@@ -42,7 +42,7 @@ export default function CreateQuestion() {
 			topics: [],
 			difficulty_level: "medium",
 			total_questions: 10,
-			addition_details: "",
+			additional_details: "",
 		},
 	});
 	form.watch("topics");
@@ -88,8 +88,10 @@ export default function CreateQuestion() {
 	}
 
 	return (
-		<div className="max-w-[430px] mx-auto p-4 rounded-md mt-4 text-wrap">
-			<h2 className="text-xl mb-4">Generate questions with your preferences</h2>
+		<div className="max-w-[530px] mx-auto p-4 rounded-md mt-4 text-wrap">
+			<h2 className="text-xl md:text-2xl mb-4 font-bold">
+				Generate questions with your preferences
+			</h2>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 					<FormField
@@ -129,7 +131,7 @@ export default function CreateQuestion() {
 							})}
 						</div>
 						<Input
-							placeholder="topic related to the subject"
+							placeholder="topic related to the subject (press enter when done)..."
 							className="w-full"
 							onKeyDown={handleTopicAdd}
 							value={topicValue}
@@ -144,7 +146,7 @@ export default function CreateQuestion() {
 								<FormItem>
 									<FormLabel>Difficulty Level</FormLabel>
 									<FormControl>
-										<Select {...field}>
+										<Select onValueChange={field.onChange} value={field.value}>
 											<SelectTrigger className="w-[180px]">
 												<SelectValue placeholder="Difficulty level" />
 											</SelectTrigger>
@@ -166,7 +168,12 @@ export default function CreateQuestion() {
 								<FormItem>
 									<FormLabel>Total questions</FormLabel>
 									<FormControl>
-										<Input placeholder="number of questions" {...field} />
+										<Input
+											placeholder="number of questions"
+											{...field}
+											value={field.value ?? ""}
+											onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : "")}
+										/>
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -175,7 +182,7 @@ export default function CreateQuestion() {
 					</div>
 					<FormField
 						control={form.control}
-						name="addition_details"
+						name="additional_details"
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>
