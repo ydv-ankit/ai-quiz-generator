@@ -65,10 +65,10 @@ export default function Home() {
 									<div className="rounded-full bg-primary/10 p-3 text-primary">
 										<BookOpen className="h-6 w-6" />
 									</div>
-									<h3 className="text-xl font-bold">AI Quiz Generation</h3>
+									<h3 className="text-xl font-bold">Customizable Question Generation</h3>
 									<p className="text-gray-500 dark:text-gray-400">
-										Generate quizzes on any topic with customizable difficulty levels and question
-										counts.
+										Generate quiz questions tailored to specific topics of your choice—whether it's
+										science, history, pop culture, or any subject you want to focus on.
 									</p>
 								</CardContent>
 							</Card>
@@ -77,10 +77,10 @@ export default function Home() {
 									<div className="rounded-full bg-primary/10 p-3 text-primary">
 										<GraduationCap className="h-6 w-6" />
 									</div>
-									<h3 className="text-xl font-bold">Teacher Assignments</h3>
+									<h3 className="text-xl font-bold">Instant Score Feedback</h3>
 									<p className="text-gray-500 dark:text-gray-400">
-										Create and assign quizzes to students as tests with deadlines and grading
-										options.
+										After completing the quiz, instantly receive a score based on your answers, with
+										a clear breakdown of correct and incorrect responses.
 									</p>
 								</CardContent>
 							</Card>
@@ -89,10 +89,10 @@ export default function Home() {
 									<div className="rounded-full bg-primary/10 p-3 text-primary">
 										<Users className="h-6 w-6" />
 									</div>
-									<h3 className="text-xl font-bold">Student Practice</h3>
+									<h3 className="text-xl font-bold">AI-Powered Question Variety</h3>
 									<p className="text-gray-500 dark:text-gray-400">
-										Students can generate practice quizzes to test their knowledge on specific
-										topics.
+										The AI generates unique questions every time, so you never get the same quiz
+										twice—ensuring a fresh experience with every try.
 									</p>
 								</CardContent>
 							</Card>
