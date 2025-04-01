@@ -48,6 +48,16 @@ export default function CreateQuestion() {
 	form.watch("topics");
 
 	async function onSubmit(data: z.infer<typeof QuizFormSchema>) {
+		toast("You got me", {
+			description: (
+				<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+					<code className="text-white text-wrap">
+						I've to pay API key bills. But don't worry, yours will definitely work.
+					</code>
+				</pre>
+			),
+		});
+		return;
 		try {
 			const response = await fetch("/api/create", {
 				method: "POST",
