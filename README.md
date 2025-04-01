@@ -1,5 +1,17 @@
 # AI Quiz Generator
 
-## Generate questions in seconds
+## Create Smart, Adaptive Quizzes Instantly!
 
-- Ankit Ydv
+![image](./public/architecture.png)
+
+## Homepage
+
+![homepage](./public/homepage.png)
+
+## Dashboard
+
+![dashboard](./public/dashboard.png)
+
+---
+
+### Thanks
