@@ -10,6 +10,7 @@ import { PendingQuizzes } from "@/components/pending-quizzes";
 import { useEffect, useState } from "react";
 import { Loader } from "@/components/loader";
 import { CompletedQuizzes } from "@/components/completed-quizzes";
+import { AuthGuard } from "@/components/auth-guard";
 
 export interface AssignmentData {
 	total: number;
@@ -17,11 +18,11 @@ export interface AssignmentData {
 }
 
 enum Views {
-	"CA",
-	"PA",
+	"CA", // Completed Assignments
+	"PA", // Pending Assignments
 }
 
-export default function Dashboard() {
+function DashboardContent() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [averageScore, setAverageScore] = useState(0);
 	const [pendingQuizzes, setPendingQuizzes] = useState<AssignmentData>({
@@ -34,6 +35,8 @@ export default function Dashboard() {
 	});
 	const [view, setView] = useState<Views>(Views.CA);
 	const { user } = useAuthStore();
+
+	console.log("results", results);
 
 	useEffect(() => {
 		(() => {
@@ -58,7 +61,17 @@ export default function Dashboard() {
 			const res = await fetch(`/api/result/all?userId=${user?.$id}`);
 			const data = await res.json();
 
-			setResults(() => data.results);
+			// sort results by createdAt in descending order (newest first)
+			const sortedResults = data.results.documents.sort((a: any, b: any) => {
+				const dateA = new Date(a.$createdAt);
+				const dateB = new Date(b.$createdAt);
+				return dateB.getTime() - dateA.getTime();
+			});
+			
+			setResults(() => ({
+				total: sortedResults.length,
+				documents: sortedResults,
+			}));
 		} catch (error) {
 			console.log(error);
 		}
@@ -154,5 +167,13 @@ export default function Dashboard() {
 				)}
 			</div>
 		</div>
+	);
+}
+
+export default function Dashboard() {
+	return (
+		<AuthGuard>
+			<DashboardContent />
+		</AuthGuard>
 	);
 }
