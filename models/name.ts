@@ -1,5 +1,7 @@
-export const dbId = "67dd8d080014015e4d19";
-export const quizCollectionId = "67dd8d5500192808f215";
-export const questionCollectionId = "67dd8d160010e590ce7e";
-export const resultsCollectionId = "67de7aa300045e60d0c3";
-export const userCollectionId = "67de794b0030310bfa8d";
+import env from "@/lib/env";
+
+export const dbId = env.appwrite.databaseId;
+export const quizCollectionId = env.appwrite.quizCollectionId;
+export const questionCollectionId = env.appwrite.questionCollectionId;
+export const resultsCollectionId = env.appwrite.resultsCollectionId;
+export const userCollectionId = env.appwrite.userCollectionId;
