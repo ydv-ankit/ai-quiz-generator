@@ -67,7 +67,7 @@ export default function Home() {
 									</div>
 									<h3 className="text-xl font-bold">Customizable Question Generation</h3>
 									<p className="text-gray-500 dark:text-gray-400">
-										Generate quiz questions tailored to specific topics of your choice—whether it's
+										Generate quiz questions tailored to specific topics of your choice—whether it&apos;s
 										science, history, pop culture, or any subject you want to focus on.
 									</p>
 								</CardContent>

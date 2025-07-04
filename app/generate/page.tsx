@@ -53,7 +53,7 @@ function CreateQuestionContent() {
 			description: (
 				<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
 					<code className="text-white text-wrap">
-						I've to pay API key bills. But don't worry, yours will definitely work.
+						I&apos;ve to pay API key bills. But don&apos;t worry, yours will definitely work.
 					</code>
 				</pre>
 			),
