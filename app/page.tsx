@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
-import { BookOpen, GraduationCap, Users } from "lucide-react";
+import { ArrowBigDown, BookOpen, GraduationCap, Users } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { Globe } from "@/components/magicui/globe";
 import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
@@ -14,8 +14,8 @@ export default function Home() {
 	return (
 		<div className="flex flex-col min-h-screen">
 			<main className="flex-1">
-				<section className="w-full py-12 md:py-24 lg:py-32 h-screen flex items-center justify-center relative">
-					<AnimatedGridPattern className="opacity-10" />
+				<section className="relative w-full py-12 md:py-24 lg:py-32 h-screen flex items-center justify-center">
+					<AnimatedGridPattern className="opacity-10 hidden md:block" />
 					<div className="container px-4 md:px-6 w-full">
 						<div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
 							<div className="flex flex-col justify-center space-y-4">
@@ -45,6 +45,14 @@ export default function Home() {
 								<Globe className="-mt-72 opacity-70" />
 							</div>
 						</div>
+					</div>
+					<div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex items-center justify-center mt-10">
+						<ArrowBigDown className="h-10 w-10 animate-bounce cursor-pointer hover:scale-110" onClick={() => {
+							window.scrollTo({
+								top: window.innerHeight + 100,
+								behavior: "smooth",
+							});
+						}}/>
 					</div>
 				</section>
 				<section
