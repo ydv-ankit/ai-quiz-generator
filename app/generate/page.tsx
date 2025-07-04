@@ -24,7 +24,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { QuizFormSchema } from "@/lib/formSchema";
-import { WandSparkles, X } from "lucide-react";
+import { Loader2, WandSparkles, X } from "lucide-react";
 import { KeyboardEvent, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuthStore } from "@/store/auth";
@@ -33,6 +33,7 @@ import { AuthGuard } from "@/components/auth-guard";
 
 function CreateQuestionContent() {
 	const [topicValue, setTopicValue] = useState<string>("");
+	const [generating, setGenerating] = useState<boolean>(false);
 	const { user } = useAuthStore();
 	const router = useRouter();
 
@@ -50,6 +51,7 @@ function CreateQuestionContent() {
 
 	async function onSubmit(data: z.infer<typeof QuizFormSchema>) {
 		try {
+			setGenerating(true);
 			const response = await fetch("/api/create", {
 				method: "POST",
 				body: JSON.stringify({
@@ -68,11 +70,13 @@ function CreateQuestionContent() {
 					</pre>
 				),
 			});
+		} finally {
+			setGenerating(false);
 		}
 	}
 
 	function handleTopicDelete(idx: number) {
-		const filteredTopics = form.getValues().topics.filter((topic, i) => i !== idx);
+		const filteredTopics = form.getValues().topics.filter((_, i) => i !== idx);
 		form.setValue("topics", filteredTopics);
 	}
 
@@ -200,10 +204,17 @@ function CreateQuestionContent() {
 							</FormItem>
 						)}
 					/>
-					<Button type="submit" className="w-full">
-						<WandSparkles className="mr-2 h-4 w-4" />
-						Generate Quiz
-					</Button>
+					{generating ? (
+						<Button type="submit" className="w-full">
+							<Loader2 className="mr-2 h-4 w-4 animate-spin" />
+							Generating...
+						</Button>
+					) : (
+						<Button type="submit" className="w-full">
+							<WandSparkles className="mr-2 h-4 w-4" />
+							Generate Quiz
+						</Button>
+					)}
 				</form>
 			</Form>
 		</div>

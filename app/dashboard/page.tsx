@@ -36,8 +36,6 @@ function DashboardContent() {
 	const [view, setView] = useState<Views>(Views.CA);
 	const { user } = useAuthStore();
 
-	console.log("results", results);
-
 	useEffect(() => {
 		(() => {
 			if (!results?.total) return 0;
