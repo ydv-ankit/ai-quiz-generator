@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useAuthStore } from "@/store/auth";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { AuthGuard } from "@/components/auth-guard";
 
 const BottomGradient = () => {
 	return (
@@ -28,7 +29,7 @@ const LabelInputContainer = ({
 	return <div className={cn("flex w-full flex-col space-y-2", className)}>{children}</div>;
 };
 
-export default function Register() {
+function RegisterContent() {
 	const { login, createAccount } = useAuthStore();
 	const [isLoading, setIsLoading] = React.useState(false);
 	const [error, setError] = React.useState("");
@@ -123,5 +124,13 @@ export default function Register() {
 				</button>
 			</form>
 		</div>
+	);
+}
+
+export default function Register() {
+	return (
+		<AuthGuard requireAuth={false}>
+			<RegisterContent />
+		</AuthGuard>
 	);
 }

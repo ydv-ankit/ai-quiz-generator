@@ -29,8 +29,9 @@ import { KeyboardEvent, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuthStore } from "@/store/auth";
 import { useRouter } from "next/navigation";
+import { AuthGuard } from "@/components/auth-guard";
 
-export default function CreateQuestion() {
+function CreateQuestionContent() {
 	const [topicValue, setTopicValue] = useState<string>("");
 	const { user } = useAuthStore();
 	const router = useRouter();
@@ -199,21 +200,30 @@ export default function CreateQuestion() {
 									Additional Instructions <span className="text-neutral-400">(optional)</span>
 								</FormLabel>
 								<FormControl>
-									<Textarea placeholder="Type your details here." {...field} />
+									<Textarea
+										placeholder="Any specific instructions or requirements for the quiz..."
+										className="resize-none"
+										{...field}
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}
 					/>
-					<Button
-						type="submit"
-						variant={"outline"}
-						className="text-blue-100 hover:text-blue-100 bg-blue-800 hover:bg-blue-600 w-full">
-						<span>Generate</span>
-						<WandSparkles />
+					<Button type="submit" className="w-full">
+						<WandSparkles className="mr-2 h-4 w-4" />
+						Generate Quiz
 					</Button>
 				</form>
 			</Form>
 		</div>
+	);
+}
+
+export default function CreateQuestion() {
+	return (
+		<AuthGuard>
+			<CreateQuestionContent />
+		</AuthGuard>
 	);
 }

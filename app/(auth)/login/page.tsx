@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useAuthStore } from "@/store/auth";
 import { useRouter } from "next/navigation";
+import { AuthGuard } from "@/components/auth-guard";
 
 const BottomGradient = () => {
 	return (
@@ -27,8 +28,10 @@ const LabelInputContainer = ({
 	return <div className={cn("flex w-full flex-col space-y-2", className)}>{children}</div>;
 };
 
-export default function Login() {
-	const { login } = useAuthStore();
+function LoginContent() {
+	const { login, session } = useAuthStore();
+	console.log("session", session);
+	
 	const [isLoading, setIsLoading] = React.useState(false);
 	const [error, setError] = React.useState("");
 	const router = useRouter();
@@ -88,5 +91,13 @@ export default function Login() {
 				</button>
 			</form>
 		</div>
+	);
+}
+
+export default function Login() {
+	return (
+		<AuthGuard requireAuth={false}>
+			<LoginContent />
+		</AuthGuard>
 	);
 }
