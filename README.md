@@ -2,6 +2,10 @@
 
 A modern, full-stack web application that generates personalized quizzes using AI. Built with Next.js 14, TypeScript, and Appwrite for authentication and data storage.
 
+### Test Credentials:
+- Email: `ankit@mail.com`
+- Password: `ankit123`
+
 ## ✨ Features
 
 ### 🎯 Core Functionality
